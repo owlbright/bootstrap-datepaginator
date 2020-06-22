@@ -17,6 +17,11 @@
  * limitations under the License.
  * ========================================================= */
 
+// ADDED >
+import moment from '../../../moment'
+import datepicker from '../../../bootstrap-datepicker'
+// < ADDED
+
 ;(function($, window, document, undefined) {
 
 	/*global jQuery, moment*/
@@ -34,6 +39,8 @@
 	DatePaginator.defaults = {
 		fillWidth: true,
 		highlightSelectedDate: true,
+		highlightFilled: true,
+		highlightPartiallyFilled: true,
 		highlightToday: true,
 		hint: 'dddd, Do MMMM YYYY',
 		injectStyle: true,
@@ -44,6 +51,12 @@
 		onSelectedDateChanged: null,
 		selectedDate: moment().clone().startOf('day'),
 		selectedDateFormat: 'YYYY-MM-DD',
+
+		// ADDED >
+		fullFilledDates: [/*moment().subtract(3, "days").clone().startOf("day"), moment().clone().startOf("day")*/],
+		partiallyFilledDates: [/*moment().subtract(1, "days").clone().startOf("day"), moment().subtract(4, "days").clone().startOf("day")*/],
+		// < ADDED
+
 		selectedItemWidth: 140,
 		showCalendar: true,
 		showOffDays: true,
@@ -67,6 +80,54 @@
 			this._setSelectedDate(moment(date, format ? format : this.options.selectedDateFormat));
 			this._render();
 		},
+
+
+
+		// ADDED >
+		refreshFilledDates: function (partiallyFilled, fullFilled) {
+			this._refreshFilledDates(partiallyFilled,fullFilled);
+			this._render();
+		},
+		getFullFilledDates: function() {
+			return this.options.fullFilledDates;
+		},
+		getPartiallyFilledDates: function() {
+			return this.options.partiallyFilledDates;
+		},
+		removeFilledDate: function(date, dateType) {
+			let parentArray;
+
+			switch (dateType) {
+				case "full": parentArray = this.options.fullFilledDates; break;
+				case "partially": parentArray = this.options.partiallyFilledDates; break;
+			}
+
+			let targetDateIndex = parentArray.findIndex(date => date === date);
+
+			if (targetDateIndex !== undefined) {
+				parentArray.splice(targetDateIndex, 1);
+				this._render();
+			}
+
+		},
+		addFilledDate: function(date, t) {
+			let parentArray;
+
+			switch (t) {
+				case "full": parentArray = this.options.fullFilledDates;break;
+				case "partially": parentArray = this.options.partiallyFilledDates;break;
+			}
+
+			if (!parentArray.includes(date)) {
+			// if (parentArray.find(existingDate => existingDate === date) === undefined) {
+				parentArray.push(date);
+				this._render();
+			}
+		},
+		// ADDED <
+
+
+
 
 		remove: function() {
 
@@ -182,6 +243,14 @@
 			}
 		},
 
+		// ADDED >
+		_refreshFilledDates: function (partiallyFilled, fullFilled) {
+
+			this.options.partiallyFilledDates = partiallyFilled == null ? [] : partiallyFilled;
+			this.options.fullFilledDates = fullFilled == null ? [] : fullFilled;
+		},
+		// ADDED <
+
 		_setSelectedDate: function(selectedDate) {
 
 			if ((!selectedDate.isSame(this.options.selectedDate)) &&
@@ -285,6 +354,18 @@
 				if (item.isToday && self.options.highlightToday) {
 					$a.addClass('dp-today');
 				}
+
+
+				// ADDED >
+				if (!item.isPartiallyFilled && item.isFilled && self.options.highlightFilled) {
+					$a.addClass("dp-filled full");
+				}
+				if (!item.isFilled && item.isPartiallyFilled && self.options.highlightPartiallyFilled) {
+					$a.addClass("dp-filled partially");
+				}
+				// < ADDED
+
+
 				if (item.isStartOfWeek && self.options.showStartOfWeek) {
 					$a.addClass('dp-divider');
 				}
@@ -370,6 +451,14 @@
 					m: m.clone().format(this.options.selectedDateFormat),
 					isValid: valid,
 					isSelected: (m.isSame(this.options.selectedDate)) ? true : false,
+
+
+					// ADDED >
+					isFilled: this.options.fullFilledDates.find(filledDate => {return m.isSame(filledDate) ? true : false}),
+					isPartiallyFilled: !this.options.fullFilledDates.find(filledDate => {return m.isSame(filledDate) ? true : false}) && this.options.partiallyFilledDates.find(filledDate => {return m.isSame(filledDate) ? true : false}),
+					// < ADDED
+
+
 					isToday: (m.isSame(today)) ? true : false,
 					isOffDay: (this.options.offDays.split(',').indexOf(m.format(this.options.offDaysFormat)) !== -1) ? true : false,
 					isStartOfWeek: (this.options.startOfWeek.split(',').indexOf(m.format(this.options.startOfWeekFormat)) !== -1) ? true : false,
