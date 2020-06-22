@@ -302,7 +302,7 @@ import datepicker from '../../../bootstrap-datepicker'
 					.addClass(this.options.size === 'sm' ? 'dp-nav-sm' : this.options.size === 'lg' ? 'dp-nav-lg' : '')
 					.addClass(this.options.squareEdges ? 'dp-nav-square-edges' : '')
 					.append($(this._template.icon)
-						.addClass('glyphicon-chevron-left')
+						.addClass('dashicons-arrow-left-alt2')
 						.addClass('dp-nav-left'))
 					.width(this.options.navItemWidth);
 				this.$rightNav = $(this._template.navItem)
@@ -310,11 +310,11 @@ import datepicker from '../../../bootstrap-datepicker'
 					.addClass(this.options.size === 'sm' ? 'dp-nav-sm' : this.options.size === 'lg' ? 'dp-nav-lg' : '')
 					.addClass(this.options.squareEdges ? 'dp-nav-square-edges' : '')
 					.append($(this._template.icon)
-						.addClass('glyphicon-chevron-right')
+						.addClass('dashicons-arrow-right-alt2')
 						.addClass('dp-nav-right'))
 					.width(this.options.navItemWidth);
 				this.$calendar = this.options.showCalendar ? $(this._template.calendar) : undefined;
-				this._injectStyle();
+				/*this._injectStyle();*/
 				this.initialized = true;
 			}
 			else {
@@ -476,8 +476,8 @@ import datepicker from '../../../bootstrap-datepicker'
 			listItem: '<li></li>',
 			navItem: '<a href="#" class="dp-nav"></a>',
 			dateItem: '<a href="#" class="dp-item"></a>',
-			icon: '<i class="glyphicon"></i>',
-			calendar: '<i id="dp-calendar" class="glyphicon glyphicon-calendar"></i>'
+			icon: '<i class="dashicons"></i>',
+			calendar: '<i id="dp-calendar" class="dashicons dashicons-calendar"></i>'
 		},
 
 		_css: '.datepaginator{font-size:12px;height:60px}.datepaginator-sm{font-size:10px;height:40px}.datepaginator-lg{font-size:14px;height:80px}.pagination{margin:0;padding:0;white-space:nowrap}.dp-nav{height:60px;padding:22px 0!important;width:20px;margin:0!important;text-align:center}.dp-nav-square-edges{border-radius:0!important}.dp-item{height:60px;padding:13px 0!important;width:35px;margin:0!important;border-left-style:hidden!important;text-align:center}.dp-item-sm{height:40px!important;padding:5px!important}.dp-item-lg{height:80px!important;padding:22px 0!important}.dp-nav-sm{height:40px!important;padding:11px 0!important}.dp-nav-lg{height:80px!important;padding:33px 0!important}a.dp-nav-right{border-left-style:hidden!important}.dp-divider{border-left:2px solid #ddd!important}.dp-off{background-color:#F0F0F0!important}.dp-no-select{color:#ccc!important;background-color:#F0F0F0!important}.dp-no-select:hover{background-color:#F0F0F0!important}.dp-today{background-color:#88B5DB!important;color:#fff!important}.dp-selected{background-color:#428bca!important;color:#fff!important;width:140px}#dp-calendar{padding:3px 5px 0 0!important;margin-right:3px;position:absolute;right:0;top:10}'
