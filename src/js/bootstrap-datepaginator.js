@@ -19,7 +19,8 @@
 
 // ADDED >
 import moment from '../../../moment'
-import datepicker from '../../../bootstrap-datepicker'
+import datepicker from '../../../bootstrap-datepicker/js/bootstrap-datepicker'
+import '../../../bootstrap-datepicker/dist/css/bootstrap-datepicker.css'
 // < ADDED
 
 ;(function($, window, document, undefined) {
